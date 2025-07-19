@@ -29,19 +29,15 @@ public class RedBusAutomationMain2 {
 		selectLocation(driver, wait, "Chennai");
 		selectLocation(driver, wait, "Bangalore");
 		searchBus(wait);
-		
-		By liveTrackingButtonLocator = By.xpath("//div[contains(text(),'Live Tracking')]");
-		WebElement liveTrackingButton = wait.until(ExpectedConditions.elementToBeClickable(liveTrackingButtonLocator));
-		liveTrackingButton.click();
+		filterButtonClick(wait,"Live Tracking");
 		
 		By tuppleWrapperLocator = By.xpath("//li[contains(@class,'tupleWrapper')]");
 		By busesNameLocator = By.xpath(".//div[contains(@class,\"travelsName\")]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(tuppleWrapperLocator));
 		
-		By acButtonLocator = By.xpath("//div[starts-with(text(),'AC')]");
-		WebElement acButton = wait.until(ExpectedConditions.elementToBeClickable(acButtonLocator));
-		acButton.click();
-
+		
+		filterButtonClick(wait,"AC");
+		
 		By subTitleLocator = By.xpath("//span[contains(@class,\"subtitle\")]");
 		
 		Boolean isBuses = wait.until(ExpectedConditions.textToBePresentInElementLocated(subTitleLocator,"buses"));
@@ -72,6 +68,14 @@ public class RedBusAutomationMain2 {
 			System.out.println(row.findElement(busesNameLocator).getText());
 		}
 	}
+
+
+
+	private static void filterButtonClick(WebDriverWait wait , String buttonName) {
+		By liveTrackingButtonLocator = By.xpath("//div[contains(text(),'"+buttonName+"')]");
+		WebElement liveTrackingButton = wait.until(ExpectedConditions.elementToBeClickable(liveTrackingButtonLocator));
+		liveTrackingButton.click();
+	}
 	
 	
 	
@@ -80,23 +84,19 @@ public class RedBusAutomationMain2 {
 	//=======================================================//
 	
 
-	private static void searchBus(WebDriverWait wait) {
-		By searchBusesLocator = By.xpath("//button[.='Search buses']");
-		WebElement searchBuses = wait.until(ExpectedConditions.elementToBeClickable(searchBusesLocator));
-		searchBuses.click();
-	}
-
-	private static void waitTillSuggestionsReady(WebDriverWait wait) {
-		By searchSuggestionLocator = By.xpath("//div[contains(@class,\"searchSuggestionWrapper\")]");
-		WebElement searchSoureSuggestionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(searchSuggestionLocator));
-	}
-
 	private static void clickSourceLocation(WebDriverWait wait) {
 		By sourceButtonLocator = By.xpath("//div[contains(@class,\"srcDestWrapper\") and @role=\"button\"]");
 		WebElement sourceButtonElement = wait.until(ExpectedConditions.visibilityOfElementLocated(sourceButtonLocator));
 		sourceButtonElement.click();
 	}
+	
+	
+	private static void waitTillSuggestionsReady(WebDriverWait wait) {
+		By searchSuggestionLocator = By.xpath("//div[contains(@class,\"searchSuggestionWrapper\")]");
+		WebElement searchSoureSuggestionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(searchSuggestionLocator));
+	}
 
+	
 	private static By selectLocation(WebDriver driver, WebDriverWait wait,String locationData) {
 		WebElement searchTextBoxElement = driver.switchTo().activeElement();
 		searchTextBoxElement.sendKeys(locationData);
@@ -120,5 +120,15 @@ public class RedBusAutomationMain2 {
 		}
 		return searchcategoryLocator;
 	}
+	
+	private static void searchBus(WebDriverWait wait) {
+		By searchBusesLocator = By.xpath("//button[.='Search buses']");
+		WebElement searchBuses = wait.until(ExpectedConditions.elementToBeClickable(searchBusesLocator));
+		searchBuses.click();
+	}
+
+	
+
+	
 
 }
